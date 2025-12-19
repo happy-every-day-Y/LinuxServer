@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbuffer.a CMakeFiles/buffer.dir/Buffer.cpp.o
+/usr/bin/ranlib libbuffer.a

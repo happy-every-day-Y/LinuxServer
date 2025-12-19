@@ -1,0 +1,2 @@
+/usr/bin/ar qc libconnection.a CMakeFiles/connection.dir/TcpConnection.cpp.o
+/usr/bin/ranlib libconnection.a
