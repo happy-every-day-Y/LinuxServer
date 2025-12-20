@@ -57,8 +57,3 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("/home/zhifei/LinuxServer/build/third_party/BS_thread_pool/cmake_install.cmake")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for the subdirectory.
-  include("/home/zhifei/LinuxServer/build/third_party/boost/cmake_install.cmake")
-endif()
-

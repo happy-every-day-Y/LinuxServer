@@ -3,6 +3,8 @@
 #include "Acceptor.h"
 #include "TcpConnection.h"
 #include "Buffer.h"
+#include "Session.h"
+#include "SessionManager.h"
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <memory>
@@ -10,16 +12,16 @@
 
 class NetBootstrap{
 public:
-    using MessageCallback = TcpConnection::MessageCallback;
+    using ReadCallback = TcpConnection::ReadCallback;
 
     NetBootstrap(EventLoop* loop, const sockaddr_in& listenAddr);
-    void setMessageCallback(MessageCallback cb);
+    void setReadCallback(ReadCallback cb);
     void start();
 
 private:
     EventLoop* m_loop;
     Acceptor m_acceptor;
-    MessageCallback m_messageCallback;
+    ReadCallback m_readCallback;
     std::unordered_map<int, std::shared_ptr<TcpConnection>> m_connections;
 
     void handleNewConnection(int fd, const sockaddr_in& addr);

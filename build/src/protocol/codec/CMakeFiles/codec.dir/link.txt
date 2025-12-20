@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcodec.a CMakeFiles/codec.dir/HttpCodec.cpp.o CMakeFiles/codec.dir/WebSocketCodec.cpp.o
+/usr/bin/ranlib libcodec.a

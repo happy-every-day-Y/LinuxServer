@@ -32,13 +32,13 @@ void EpollPoller::poll(int timeoutMs, std::vector<Channel *> &activeChannels)
         return;
     }
 
-    LOG_DEBUG("epoll_wait returned {} events", num);
+    //LOG_DEBUG("epoll_wait returned {} events", num);
 
     for (int i = 0; i < num; i++) {
         Channel *channel = static_cast<Channel *>(events[i].data.ptr);
         channel->setRevents(events[i].events);
 
-        LOG_DEBUG("Active fd={}, events={:#x}", channel->fd(), events[i].events);
+        LOG_DEBUG("Active fd={}, events={:#x}", channel->fd(), static_cast<uint32_t>(events[i].events));
 
         activeChannels.push_back(channel);
     }
@@ -59,13 +59,13 @@ void EpollPoller::updateChannel(Channel *channel)
             return;
         }
         m_channels[fd] = channel;
-        LOG_DEBUG("epoll ADD fd={}, events={:#x}", fd, ev.events);
+        LOG_DEBUG("epoll ADD fd={}, events={:#x}", fd, static_cast<uint32_t>(ev.events));
     } else {
         if (epoll_ctl(m_epollfd, EPOLL_CTL_MOD, fd, &ev) < 0) {
             LOG_ERROR("epoll_ctl MOD failed, fd={}, err={}", fd, strerror(errno));
             return;
         }
-        LOG_DEBUG("epoll MOD fd={}, events={:#x}", fd, ev.events);
+        LOG_DEBUG("epoll MOD fd={}, events={:#x}", fd, static_cast<uint32_t>(ev.events));
     }
 }
 
@@ -75,6 +75,6 @@ void EpollPoller::removeChannel(Channel *channel)
     if (m_channels.count(fd)) {
         epoll_ctl(m_epollfd, EPOLL_CTL_DEL, fd, nullptr);
         m_channels.erase(fd);
-        LOG_DEBUG("epoll DEL fd={}", fd);
+        LOG_INFO("epoll DEL fd={}", fd);
     }
 }

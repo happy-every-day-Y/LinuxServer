@@ -9,6 +9,12 @@ Channel::Channel(EventLoop *loop, int fd)
     LOG_DEBUG("Channel created, fd={}", m_fd);
 }
 
+Channel::~Channel()
+{
+    ::close(m_fd);
+    LOG_DEBUG("Channel destroyed, fd={}", m_fd);
+}
+
 void Channel::handleEvent()
 {
     LOG_DEBUG("Channel handleEvent, fd={}, revents={:#x}", m_fd, m_revents);

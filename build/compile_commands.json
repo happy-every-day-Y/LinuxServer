@@ -85,13 +85,13 @@
 },
 {
   "directory": "/home/zhifei/LinuxServer/build/src/net/connection",
-  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/reactor -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/connection.dir/TcpConnection.cpp.o -c /home/zhifei/LinuxServer/src/net/connection/TcpConnection.cpp",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/logic/handler -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/connection.dir/TcpConnection.cpp.o -c /home/zhifei/LinuxServer/src/net/connection/TcpConnection.cpp",
   "file": "/home/zhifei/LinuxServer/src/net/connection/TcpConnection.cpp",
   "output": "src/net/connection/CMakeFiles/connection.dir/TcpConnection.cpp.o"
 },
 {
   "directory": "/home/zhifei/LinuxServer/build/src/net/bootstrap",
-  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/acceptor -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/bootstrap.dir/NetBootstrap.cpp.o -c /home/zhifei/LinuxServer/src/net/bootstrap/NetBootstrap.cpp",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/logic/handler -I/home/zhifei/LinuxServer/src/net/acceptor -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/bootstrap.dir/NetBootstrap.cpp.o -c /home/zhifei/LinuxServer/src/net/bootstrap/NetBootstrap.cpp",
   "file": "/home/zhifei/LinuxServer/src/net/bootstrap/NetBootstrap.cpp",
   "output": "src/net/bootstrap/CMakeFiles/bootstrap.dir/NetBootstrap.cpp.o"
 },
@@ -102,8 +102,68 @@
   "output": "src/net/acceptor/CMakeFiles/acceptor.dir/Acceptor.cpp.o"
 },
 {
+  "directory": "/home/zhifei/LinuxServer/build/src/net/session",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/logic/handler -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/session.dir/Session.cpp.o -c /home/zhifei/LinuxServer/src/net/session/Session.cpp",
+  "file": "/home/zhifei/LinuxServer/src/net/session/Session.cpp",
+  "output": "src/net/session/CMakeFiles/session.dir/Session.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/net/session",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/logic/handler -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/session.dir/SessionManager.cpp.o -c /home/zhifei/LinuxServer/src/net/session/SessionManager.cpp",
+  "file": "/home/zhifei/LinuxServer/src/net/session/SessionManager.cpp",
+  "output": "src/net/session/CMakeFiles/session.dir/SessionManager.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/logic/handler",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/logic/handler -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/handler.dir/HttpHandler.cpp.o -c /home/zhifei/LinuxServer/src/logic/handler/HttpHandler.cpp",
+  "file": "/home/zhifei/LinuxServer/src/logic/handler/HttpHandler.cpp",
+  "output": "src/logic/handler/CMakeFiles/handler.dir/HttpHandler.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/logic/dispatcher",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/handler -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/dispatcher.dir/Dispatcher.cpp.o -c /home/zhifei/LinuxServer/src/logic/dispatcher/Dispatcher.cpp",
+  "file": "/home/zhifei/LinuxServer/src/logic/dispatcher/Dispatcher.cpp",
+  "output": "src/logic/dispatcher/CMakeFiles/dispatcher.dir/Dispatcher.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/protocol/codec",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/protocol/protocol -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/codec.dir/HttpCodec.cpp.o -c /home/zhifei/LinuxServer/src/protocol/codec/HttpCodec.cpp",
+  "file": "/home/zhifei/LinuxServer/src/protocol/codec/HttpCodec.cpp",
+  "output": "src/protocol/codec/CMakeFiles/codec.dir/HttpCodec.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/protocol/codec",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/protocol/protocol -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/codec.dir/WebSocketCodec.cpp.o -c /home/zhifei/LinuxServer/src/protocol/codec/WebSocketCodec.cpp",
+  "file": "/home/zhifei/LinuxServer/src/protocol/codec/WebSocketCodec.cpp",
+  "output": "src/protocol/codec/CMakeFiles/codec.dir/WebSocketCodec.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/protocol/protocol",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/protocol.dir/HttpRequest.cpp.o -c /home/zhifei/LinuxServer/src/protocol/protocol/HttpRequest.cpp",
+  "file": "/home/zhifei/LinuxServer/src/protocol/protocol/HttpRequest.cpp",
+  "output": "src/protocol/protocol/CMakeFiles/protocol.dir/HttpRequest.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/protocol/protocol",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/protocol.dir/HttpResponse.cpp.o -c /home/zhifei/LinuxServer/src/protocol/protocol/HttpResponse.cpp",
+  "file": "/home/zhifei/LinuxServer/src/protocol/protocol/HttpResponse.cpp",
+  "output": "src/protocol/protocol/CMakeFiles/protocol.dir/HttpResponse.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/protocol/protocol",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/buffer -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/protocol.dir/WebSocketFrame.cpp.o -c /home/zhifei/LinuxServer/src/protocol/protocol/WebSocketFrame.cpp",
+  "file": "/home/zhifei/LinuxServer/src/protocol/protocol/WebSocketFrame.cpp",
+  "output": "src/protocol/protocol/CMakeFiles/protocol.dir/WebSocketFrame.cpp.o"
+},
+{
+  "directory": "/home/zhifei/LinuxServer/build/src/service/HttpService",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/service/HttpService -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/logic/handler -I/home/zhifei/LinuxServer/src/base/thread_pool -I/home/zhifei/LinuxServer/third_party/BS_thread_pool/include -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/httpservice.dir/HttpService.cpp.o -c /home/zhifei/LinuxServer/src/service/HttpService/HttpService.cpp",
+  "file": "/home/zhifei/LinuxServer/src/service/HttpService/HttpService.cpp",
+  "output": "src/service/HttpService/CMakeFiles/httpservice.dir/HttpService.cpp.o"
+},
+{
   "directory": "/home/zhifei/LinuxServer/build/apps/chatd",
-  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/config -I/home/zhifei/LinuxServer/third_party/json/include -I/home/zhifei/LinuxServer/src/base/thread_pool -I/home/zhifei/LinuxServer/third_party/BS_thread_pool/include -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/acceptor -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/chatd.dir/main.cpp.o -c /home/zhifei/LinuxServer/apps/chatd/main.cpp",
+  "command": "/usr/bin/c++ -DPROJECT_ROOT_DIR=\\\"/home/zhifei/LinuxServer\\\" -DSPDLOG_COMPILED_LIB -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/config -I/home/zhifei/LinuxServer/third_party/json/include -I/home/zhifei/LinuxServer/src/base/thread_pool -I/home/zhifei/LinuxServer/third_party/BS_thread_pool/include -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/logic/handler -I/home/zhifei/LinuxServer/src/net/acceptor -I/home/zhifei/LinuxServer/src/service/HttpService -std=gnu++17 -Wall -Wextra -Wpedantic -o CMakeFiles/chatd.dir/main.cpp.o -c /home/zhifei/LinuxServer/apps/chatd/main.cpp",
   "file": "/home/zhifei/LinuxServer/apps/chatd/main.cpp",
   "output": "apps/chatd/CMakeFiles/chatd.dir/main.cpp.o"
 }

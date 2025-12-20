@@ -12,4 +12,7 @@ target_link_libraries(bootstrap
         reactor
         connection
         acceptor
+        session
+        protocol
+        codec
 )

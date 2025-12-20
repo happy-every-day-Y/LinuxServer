@@ -7,4 +7,8 @@ target_link_libraries(chatd
         config
         thread_pool
         bootstrap
+        protocol
+        codec
+        dispatcher
+        httpservice
 )

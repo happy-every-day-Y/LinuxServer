@@ -20,13 +20,13 @@ void EventLoop::loop()
     while(!m_quit){
         m_activeChannels.clear();
 
-        LOG_DEBUG("EventLoop polling...");
+        //LOG_DEBUG("EventLoop polling...");
         m_poller->poll(1000, m_activeChannels);
 
-        LOG_DEBUG("EventLoop got {} active channels", m_activeChannels.size());
+        //LOG_DEBUG("EventLoop got {} active channels", m_activeChannels.size());
 
         for(Channel* ch : m_activeChannels){
-            LOG_DEBUG("EventLoop handling fd={}", ch->fd());
+            //LOG_DEBUG("EventLoop handling fd={}", ch->fd());
             ch->handleEvent();
         }
     }

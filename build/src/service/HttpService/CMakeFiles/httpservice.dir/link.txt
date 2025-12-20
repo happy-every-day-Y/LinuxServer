@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhttpservice.a CMakeFiles/httpservice.dir/HttpService.cpp.o
+/usr/bin/ranlib libhttpservice.a

@@ -320,11 +320,11 @@ apps/chatd/CMakeFiles/chatd.dir/main.cpp.o: \
  /usr/include/c++/13/any \
  /home/zhifei/LinuxServer/third_party/json/include/nlohmann/detail/macro_unscope.hpp \
  /home/zhifei/LinuxServer/third_party/json/include/nlohmann/thirdparty/hedley/hedley_undef.hpp \
- /home/zhifei/LinuxServer/src/net/bootstrap/NetBootstrap.h \
  /home/zhifei/LinuxServer/src/net/reactor/EventLoop.h \
+ /home/zhifei/LinuxServer/src/net/bootstrap/NetBootstrap.h \
  /home/zhifei/LinuxServer/src/net/acceptor/Acceptor.h \
  /home/zhifei/LinuxServer/src/net/reactor/Channel.h \
- /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/sys/socket.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
  /usr/include/x86_64-linux-gnu/bits/socket.h \
  /usr/include/x86_64-linux-gnu/bits/socket_type.h \
@@ -340,18 +340,29 @@ apps/chatd/CMakeFiles/chatd.dir/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/asm/sockios.h \
  /usr/include/asm-generic/sockios.h \
  /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
- /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl.h \
- /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
- /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
- /usr/include/x86_64-linux-gnu/bits/struct_stat.h /usr/include/unistd.h \
- /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+ /usr/include/unistd.h /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h \
+ /usr/include/linux/close_range.h /usr/include/netinet/in.h \
+ /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl.h \
+ /usr/include/x86_64-linux-gnu/bits/fcntl-linux.h \
+ /usr/include/linux/falloc.h /usr/include/x86_64-linux-gnu/bits/stat.h \
+ /usr/include/x86_64-linux-gnu/bits/struct_stat.h \
  /home/zhifei/LinuxServer/src/net/connection/TcpConnection.h \
  /home/zhifei/LinuxServer/src/net/buffer/Buffer.h \
- /usr/include/arpa/inet.h
+ /home/zhifei/LinuxServer/src/net/session/Session.h \
+ /home/zhifei/LinuxServer/src/net/session/SessionManager.h \
+ /usr/include/arpa/inet.h \
+ /home/zhifei/LinuxServer/src/service/HttpService/HttpService.h \
+ /home/zhifei/LinuxServer/src/protocol/codec/HttpCodec.h \
+ /home/zhifei/LinuxServer/src/protocol/codec/Codec.h \
+ /home/zhifei/LinuxServer/src/protocol/protocol/Message.h \
+ /home/zhifei/LinuxServer/src/protocol/protocol/HttpRequest.h \
+ /home/zhifei/LinuxServer/src/protocol/protocol/HttpResponse.h \
+ /home/zhifei/LinuxServer/src/logic/dispatcher/Dispatcher.h \
+ /home/zhifei/LinuxServer/src/logic/handler/Handler.h \
+ /home/zhifei/LinuxServer/src/protocol/protocol/WebSocketFrame.h

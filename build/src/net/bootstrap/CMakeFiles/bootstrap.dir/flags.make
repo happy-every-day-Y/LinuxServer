@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DPROJECT_ROOT_DIR=\"/home/zhifei/LinuxServer\" -DSPDLOG_COMPILED_LIB
 
-CXX_INCLUDES = -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/net/acceptor
+CXX_INCLUDES = -I/home/zhifei/LinuxServer/src/net/bootstrap -I/home/zhifei/LinuxServer/src/base/log -I/home/zhifei/LinuxServer/third_party/spdlog/include -I/home/zhifei/LinuxServer/src/net/reactor -I/home/zhifei/LinuxServer/src/net/connection -I/home/zhifei/LinuxServer/src/net/buffer -I/home/zhifei/LinuxServer/src/logic/dispatcher -I/home/zhifei/LinuxServer/src/protocol/codec -I/home/zhifei/LinuxServer/src/protocol/protocol -I/home/zhifei/LinuxServer/src/net/session -I/home/zhifei/LinuxServer/src/logic/handler -I/home/zhifei/LinuxServer/src/net/acceptor
 
 CXX_FLAGS = -std=gnu++17 -Wall -Wextra -Wpedantic
 

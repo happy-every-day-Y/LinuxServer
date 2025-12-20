@@ -1,0 +1,67 @@
+[2025-12-20 19:33:27] [info] EpollPoller created, epollfd=4
+[2025-12-20 19:33:27] [info] EventLoop created
+[2025-12-20 19:33:27] [info] HttpService created with static path: ./public
+[2025-12-20 19:33:27] [info] Registered handler: static
+[2025-12-20 19:33:27] [info] Registered handler: GET_/api/hello
+[2025-12-20 19:33:27] [info] Registered handler: POST_/api/users
+[2025-12-20 19:33:27] [debug] Channel created, fd=5
+[2025-12-20 19:33:27] [debug] Channel fd=5 set read callback
+[2025-12-20 19:33:27] [info] Server starting on port 9000
+[2025-12-20 19:33:27] [info] Static file path: ./public
+[2025-12-20 19:33:27] [debug] Channel fd=5 enableReading
+[2025-12-20 19:33:27] [debug] EventLoop updateChannel fd=5
+[2025-12-20 19:33:27] [debug] epoll ADD fd=5, events=0x1
+[2025-12-20 19:33:27] [info] Acceptor listening fd=5
+[2025-12-20 19:33:27] [info] EventLoop loop started
+[2025-12-20 19:37:35] [debug] Active fd=5, events=0x1
+[2025-12-20 19:37:35] [debug] Channel handleEvent, fd=5, revents=0x1
+[2025-12-20 19:37:35] [debug] Channel fd=5 EPOLLIN triggered
+[2025-12-20 19:37:35] [info] Accepted new connection fd=6 from 127.0.0.1:47812
+[2025-12-20 19:37:35] [debug] Channel created, fd=6
+[2025-12-20 19:37:35] [info] TcpConnection created fd=6
+[2025-12-20 19:37:35] [debug] Channel fd=6 set read callback
+[2025-12-20 19:37:35] [debug] Channel fd=6 set write callback
+[2025-12-20 19:37:35] [debug] Channel fd=6 enableReading
+[2025-12-20 19:37:35] [debug] EventLoop updateChannel fd=6
+[2025-12-20 19:37:35] [debug] epoll ADD fd=6, events=0x1
+[2025-12-20 19:37:35] [info] Session added, fd=6
+[2025-12-20 19:37:35] [info] Session created, fd=6
+[2025-12-20 19:37:35] [info] New connection fd=6 from 127.0.0.1:47812
+[2025-12-20 19:37:35] [debug] Active fd=5, events=0x1
+[2025-12-20 19:37:35] [debug] Channel handleEvent, fd=5, revents=0x1
+[2025-12-20 19:37:35] [debug] Channel fd=5 EPOLLIN triggered
+[2025-12-20 19:37:35] [info] Accepted new connection fd=7 from 127.0.0.1:47814
+[2025-12-20 19:37:35] [debug] Channel created, fd=7
+[2025-12-20 19:37:35] [info] TcpConnection created fd=7
+[2025-12-20 19:37:35] [debug] Channel fd=7 set read callback
+[2025-12-20 19:37:35] [debug] Channel fd=7 set write callback
+[2025-12-20 19:37:35] [debug] Channel fd=7 enableReading
+[2025-12-20 19:37:35] [debug] EventLoop updateChannel fd=7
+[2025-12-20 19:37:35] [debug] epoll ADD fd=7, events=0x1
+[2025-12-20 19:37:35] [info] Session added, fd=7
+[2025-12-20 19:37:35] [info] Session created, fd=7
+[2025-12-20 19:37:35] [info] New connection fd=7 from 127.0.0.1:47814
+[2025-12-20 19:37:35] [debug] Active fd=7, events=0x1
+[2025-12-20 19:37:35] [debug] Channel handleEvent, fd=7, revents=0x1
+[2025-12-20 19:37:35] [debug] Channel fd=7 EPOLLIN triggered
+[2025-12-20 19:37:35] [info] ThreadPool initialized with 24 threads
+[2025-12-20 19:37:35] [debug] Dispatching HTTP request: / 1
+[2025-12-20 19:37:35] [debug] HttpHandler 'static' handling request: / Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36
+[2025-12-20 19:37:35] [debug] Active fd=7, events=0x1
+[2025-12-20 19:37:35] [debug] Channel handleEvent, fd=7, revents=0x1
+[2025-12-20 19:37:35] [debug] Channel fd=7 EPOLLIN triggered
+[2025-12-20 19:37:35] [error] Buffer::readFd fd=7 error=22, msg=Invalid argument
+[2025-12-20 19:37:35] [error] TcpConnection handleRead error fd=7
+[2025-12-20 19:37:35] [info] TcpConnection fd=7 closed
+[2025-12-20 19:37:35] [debug] Channel fd=7 disableAll
+[2025-12-20 19:37:35] [debug] EventLoop updateChannel fd=7
+[2025-12-20 19:37:35] [debug] epoll MOD fd=7, events=0x0
+[2025-12-20 19:37:35] [info] Connection fd=7 closed, removing from map
+[2025-12-20 19:37:35] [info] Session removed, fd=7
+[2025-12-20 19:37:35] [info] TcpConnection destroyed fd=7
+[2025-12-20 19:37:35] [debug] EventLoop removeChannel fd=7
+[2025-12-20 19:37:35] [info] epoll DEL fd=7
+[2025-12-20 19:37:35] [debug] Channel destroyed, fd=7
+[2025-12-20 19:37:35] [debug] Active fd=6, events=0x1
+[2025-12-20 19:37:35] [debug] Channel handleEvent, fd=6, revents=0x1
+[2025-12-20 19:37:35] [debug] Channel 

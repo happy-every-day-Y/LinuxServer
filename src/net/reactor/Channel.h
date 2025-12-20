@@ -1,6 +1,8 @@
 #pragma once
 #include <functional>
 #include <cstdint>
+#include <sys/socket.h>
+#include <unistd.h>
 
 class EventLoop;
 
@@ -9,6 +11,7 @@ public:
     using EventCallback = std::function<void()>;
 
     Channel(EventLoop* loop, int fd);
+    ~Channel();
 
     void handleEvent();
 

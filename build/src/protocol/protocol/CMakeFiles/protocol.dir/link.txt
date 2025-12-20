@@ -1,0 +1,2 @@
+/usr/bin/ar qc libprotocol.a CMakeFiles/protocol.dir/HttpRequest.cpp.o CMakeFiles/protocol.dir/HttpResponse.cpp.o CMakeFiles/protocol.dir/WebSocketFrame.cpp.o
+/usr/bin/ranlib libprotocol.a

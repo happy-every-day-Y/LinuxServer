@@ -23,7 +23,7 @@ Acceptor::Acceptor(EventLoop *loop, const sockaddr_in &listenAddr)
     setNonBlocking(m_listenFd);
     
     int opt = 1;
-    setsockopt(m_listenFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+    setsockopt(m_listenFd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt));
 
     if(bind(m_listenFd, (sockaddr*)&listenAddr, sizeof(listenAddr)) < 0){
         LOG_ERROR("Acceptor bind failed: {}", strerror(errno));

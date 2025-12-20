@@ -12,4 +12,8 @@ target_link_libraries(connection
         log
         buffer
         reactor
+        dispatcher
+        codec
+        protocol
+        handler
 )

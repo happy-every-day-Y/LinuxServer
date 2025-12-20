@@ -234,6 +234,84 @@ acceptor/fast:
 .PHONY : acceptor/fast
 
 #=============================================================================
+# Target rules for targets named session
+
+# Build rule for target.
+session: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 session
+.PHONY : session
+
+# fast build rule for target.
+session/fast:
+	$(MAKE) $(MAKESILENT) -f src/net/session/CMakeFiles/session.dir/build.make src/net/session/CMakeFiles/session.dir/build
+.PHONY : session/fast
+
+#=============================================================================
+# Target rules for targets named handler
+
+# Build rule for target.
+handler: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 handler
+.PHONY : handler
+
+# fast build rule for target.
+handler/fast:
+	$(MAKE) $(MAKESILENT) -f src/logic/handler/CMakeFiles/handler.dir/build.make src/logic/handler/CMakeFiles/handler.dir/build
+.PHONY : handler/fast
+
+#=============================================================================
+# Target rules for targets named dispatcher
+
+# Build rule for target.
+dispatcher: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dispatcher
+.PHONY : dispatcher
+
+# fast build rule for target.
+dispatcher/fast:
+	$(MAKE) $(MAKESILENT) -f src/logic/dispatcher/CMakeFiles/dispatcher.dir/build.make src/logic/dispatcher/CMakeFiles/dispatcher.dir/build
+.PHONY : dispatcher/fast
+
+#=============================================================================
+# Target rules for targets named codec
+
+# Build rule for target.
+codec: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 codec
+.PHONY : codec
+
+# fast build rule for target.
+codec/fast:
+	$(MAKE) $(MAKESILENT) -f src/protocol/codec/CMakeFiles/codec.dir/build.make src/protocol/codec/CMakeFiles/codec.dir/build
+.PHONY : codec/fast
+
+#=============================================================================
+# Target rules for targets named protocol
+
+# Build rule for target.
+protocol: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 protocol
+.PHONY : protocol
+
+# fast build rule for target.
+protocol/fast:
+	$(MAKE) $(MAKESILENT) -f src/protocol/protocol/CMakeFiles/protocol.dir/build.make src/protocol/protocol/CMakeFiles/protocol.dir/build
+.PHONY : protocol/fast
+
+#=============================================================================
+# Target rules for targets named httpservice
+
+# Build rule for target.
+httpservice: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 httpservice
+.PHONY : httpservice
+
+# fast build rule for target.
+httpservice/fast:
+	$(MAKE) $(MAKESILENT) -f src/service/HttpService/CMakeFiles/httpservice.dir/build.make src/service/HttpService/CMakeFiles/httpservice.dir/build
+.PHONY : httpservice/fast
+
+#=============================================================================
 # Target rules for targets named chatd
 
 # Build rule for target.
@@ -258,10 +336,16 @@ help:
 	@echo "... bootstrap"
 	@echo "... buffer"
 	@echo "... chatd"
+	@echo "... codec"
 	@echo "... config"
 	@echo "... connection"
+	@echo "... dispatcher"
+	@echo "... handler"
+	@echo "... httpservice"
 	@echo "... log"
+	@echo "... protocol"
 	@echo "... reactor"
+	@echo "... session"
 	@echo "... spdlog"
 	@echo "... thread_pool"
 .PHONY : help

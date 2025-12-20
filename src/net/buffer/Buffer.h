@@ -17,6 +17,7 @@ public:
 
     std::string retrieveAsString(size_t len);
     std::string retrieveAllAsString();
+    std::string retrieveUtf8String();
 
     void append(const char* data, size_t len);
     void append(const std::string& str);
@@ -26,6 +27,7 @@ public:
 
 private:
     void ensureWritableBytes(size_t len);
+    size_t findLastCompleteUtf8Char() const;
 
 private:
     std::vector<char> m_buffer;

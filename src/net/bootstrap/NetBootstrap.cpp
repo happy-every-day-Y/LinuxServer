@@ -11,9 +11,9 @@ NetBootstrap::NetBootstrap(EventLoop *loop, const sockaddr_in &listenAddr)
     );
 }
 
-void NetBootstrap::setMessageCallback(MessageCallback cb)
+void NetBootstrap::setReadCallback(ReadCallback cb)
 {
-    m_messageCallback = std::move(cb);
+    m_readCallback = std::move(cb);
 }
 
 void NetBootstrap::start()
@@ -26,12 +26,22 @@ void NetBootstrap::handleNewConnection(int fd, const sockaddr_in &addr)
 {
     auto conn = std::make_shared<TcpConnection>(m_loop, fd);
 
+    auto session = std::make_shared<Session>(conn);
+    session->setPeerAddr(addr);
+    SessionManager::addSession(fd, session);
+
     m_connections[fd] = conn;
 
-    conn->setMessageCallback(m_messageCallback);
+    LOG_INFO("Session created, fd={}", fd);
+
+    conn->setReadCallback(m_readCallback);
     conn->setCloseCallback([this](const std::shared_ptr<TcpConnection>& c){
+        int fd = c->fd();
+
         LOG_INFO("Connection fd={} closed, removing from map", c->fd());
-        m_connections.erase(c->fd());
+
+        SessionManager::removeSession(fd);
+        m_connections.erase(fd);
     });
 
     LOG_INFO("New connection fd={} from {}:{}", fd,
