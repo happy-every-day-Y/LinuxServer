@@ -1,2 +1,0 @@
-/usr/bin/ar qc libbootstrap.a CMakeFiles/bootstrap.dir/NetBootstrap.cpp.o
-/usr/bin/ranlib libbootstrap.a

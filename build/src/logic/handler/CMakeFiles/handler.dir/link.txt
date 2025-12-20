@@ -1,2 +1,0 @@
-/usr/bin/ar qc libhandler.a CMakeFiles/handler.dir/HttpHandler.cpp.o
-/usr/bin/ranlib libhandler.a
