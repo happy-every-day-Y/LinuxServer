@@ -1,3 +1,0 @@
-add_subdirectory(spdlog)
-add_subdirectory(json)
-add_subdirectory(BS_thread_pool)
