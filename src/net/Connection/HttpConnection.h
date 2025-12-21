@@ -10,7 +10,7 @@ public:
 
     explicit HttpConnection(const std::shared_ptr<TcpConnection>& tcp);
 
-    void start();
+    void start() override;
     void send(const std::string& data) override;
     std::string remoteAddr() const override;
     void close() override;
@@ -18,7 +18,7 @@ public:
 private:
     void onRawData(boost::beast::flat_buffer& buffer);
     void handleRequest();
-
+    
 private:
     std::shared_ptr<TcpConnection> m_tcp;
     boost::beast::http::request_parser<boost::beast::http::string_body> m_parser;

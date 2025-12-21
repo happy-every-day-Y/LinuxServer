@@ -7,6 +7,7 @@
 #include "Session.h"
 #include "SessionManager.h"
 #include "HttpConnection.h"
+#include "WebSocketConnection.h"
 
 class Acceptor : public std::enable_shared_from_this<Acceptor> {
 public:

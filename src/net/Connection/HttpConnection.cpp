@@ -2,6 +2,8 @@
 #include <boost/beast/http.hpp>
 #include <iostream>
 #include <sstream>
+#include "WebSocketConnection.h"
+#include "Logger.h"
 
 namespace http = boost::beast::http;
 
@@ -20,6 +22,8 @@ void HttpConnection::start() {
     m_tcp->setOnClose([self]() {
         self->close();
     });
+
+    m_tcp->start();
 }
 
 void HttpConnection::onRawData(boost::beast::flat_buffer& buffer) {
@@ -45,6 +49,27 @@ void HttpConnection::onRawData(boost::beast::flat_buffer& buffer) {
 
 
 void HttpConnection::handleRequest() {
+    std::cout << "begin";
+    auto it = m_request.find(boost::beast::http::field::upgrade);
+    bool isWebSocketUpgrade = it != m_request.end() && it->value() == "websocket";
+    if (isWebSocketUpgrade) {
+        auto session = getSession();
+    
+        // 从 session 中解绑自己
+        if (session) session->detach(shared_from_this());
+
+        auto wsConn = std::make_shared<WebSocketConnection>(m_tcp);
+        if (session) wsConn->bindSession(session);
+        wsConn->start();
+        LOG_INFO("Upgraded to WebSocket for session {}", session->id());
+
+        // 禁用 HttpConnection 的回调
+        m_tcp->setOnMessage(nullptr);
+
+        return; // 不再使用 HttpConnection
+    }
+    std::cout << "end";
+
     http::response<http::string_body> resp;
     resp.version(m_request.version());
     resp.keep_alive(m_request.keep_alive());

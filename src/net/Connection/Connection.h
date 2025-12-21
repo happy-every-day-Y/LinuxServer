@@ -14,6 +14,7 @@ public:
     virtual void send(const std::string& data) = 0;
     virtual std::string remoteAddr() const = 0;
     virtual void close() = 0;
+    virtual void start() = 0;
 
     void bindSession(const std::shared_ptr<Session>& session);
     std::shared_ptr<Session> getSession() const;

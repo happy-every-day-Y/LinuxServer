@@ -21,31 +21,21 @@ void Acceptor::stop() {
     }
 }
 
-void Acceptor::doAccept() {
+void Acceptor::doAccept(){
     auto self = shared_from_this();
-
     m_acceptor.async_accept(
-        [this, self](boost::system::error_code ec, boost::asio::ip::tcp::socket socket) {
+        [this, self](boost::system::error_code ec, boost::asio::ip::tcp::socket socket){
             if (!ec) {
-                auto conn = std::make_shared<TcpConnection>(std::move(socket));
-                auto httpConn = std::make_shared<HttpConnection>(conn);
+                auto tcp = std::make_shared<TcpConnection>(std::move(socket));
+                auto httpConn = std::make_shared<HttpConnection>(tcp);
                 httpConn->start();
-                conn->start();
-
-                // 创建 Session 并绑定
-                if (m_sessionManager) {
+                if (m_sessionManager){
                     auto session = m_sessionManager->createSession();
-                    httpConn->bindSession(session);
+                    httpConn->bindSession(m_sessionManager->createSession());
                 }
-
-                LOG_INFO("New connection from {}", conn->remoteAddr());
-            } else {
-                std::cerr << "Accept error: " << ec.message() << std::endl;
-            }
-
-            // 持续接收
+                LOG_INFO("New connection from {}", tcp->remoteAddr());
+            }else { std::cerr << "Accept error: " << ec.message() << std::endl; }
             doAccept();
         }
     );
 }
-

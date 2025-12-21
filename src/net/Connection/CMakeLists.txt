@@ -1,5 +1,5 @@
 add_library(connection STATIC
-    Connection.cpp HttpConnection.cpp TcpConnection.cpp)
+    Connection.cpp HttpConnection.cpp TcpConnection.cpp WebSocketConnection.cpp)
 
 target_include_directories(connection
     PUBLIC
