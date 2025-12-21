@@ -6,9 +6,7 @@ target_link_libraries(chatd
         log
         config
         thread_pool
-        bootstrap
-        protocol
-        codec
-        dispatcher
-        httpservice
+        netbootstrap
+        acceptor
+        session
 )

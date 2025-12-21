@@ -1,2 +1,0 @@
-add_subdirectory(handler)
-add_subdirectory(dispatcher)
