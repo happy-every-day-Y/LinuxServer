@@ -1,78 +1,87 @@
-// WebSocketConnection.cpp
 #include "WebSocketConnection.h"
-#include <iostream>
-#include <sstream>
+#include "Logger.h"
 
-WebSocketConnection::WebSocketConnection(const std::shared_ptr<TcpConnection>& tcp)
-    : m_tcp(tcp) {}
+namespace websocket = boost::beast::websocket;
+using tcp = boost::asio::ip::tcp;
+
+WebSocketConnection::WebSocketConnection(
+    tcp::socket socket,
+    boost::beast::http::request<boost::beast::http::string_body> req)
+    : m_ws(std::move(socket)), m_request(std::move(req)) {
+
+    LOG_INFO("[WebSocketConnection] Created, this={}",
+             static_cast<void*>(this));
+}
 
 void WebSocketConnection::start() {
     auto self = std::static_pointer_cast<WebSocketConnection>(shared_from_this());
 
-    // 绑定 TCP 回调
-    m_tcp->setOnMessage([self](boost::beast::flat_buffer& buffer){
-        self->onRawData(buffer);
-    });
+    m_ws.set_option(websocket::stream_base::timeout::suggested(
+        boost::beast::role_type::server));
+    m_ws.set_option(websocket::stream_base::decorator(
+        [](websocket::response_type& res) {
+            res.set(boost::beast::http::field::server, "Beast-WebSocket");
+        }));
 
-    m_tcp->setOnClose([self](){
-        self->close();
-    });
-
-    m_tcp->start();
+    m_ws.async_accept(
+        m_request,
+        [self](boost::system::error_code ec) {
+            if (ec) {
+                self->fail(ec, "accept");
+                return;
+            }
+            LOG_INFO("[WebSocketConnection] handshake success");
+            self->doRead();
+        });
 }
 
-void WebSocketConnection::onRawData(boost::beast::flat_buffer& buffer) {
-    if (!m_handshakeDone) {
-        handleHandshake();
+void WebSocketConnection::doRead() {
+    auto self = std::static_pointer_cast<WebSocketConnection>(shared_from_this());
+    m_ws.async_read(
+        m_buffer,
+        [self](boost::system::error_code ec, std::size_t bytes) {
+            self->onRead(ec, bytes);
+        });
+}
+
+void WebSocketConnection::onRead(boost::system::error_code ec,
+                                 std::size_t bytes) {
+    if (ec) {
+        fail(ec, "read");
         return;
     }
 
-    // 假设简单处理：每次收到的都是完整的文本帧
-    std::string msg{
-        static_cast<const char*>(buffer.data().data()),
-        buffer.size()
-    };
-    buffer.consume(buffer.size());
+    std::string msg = boost::beast::buffers_to_string(
+        m_buffer.data());
 
-    handleFrame(msg);
+    LOG_INFO("[WebSocketConnection] recv: {}", msg);
+
+    m_ws.text(true);
+    send("Echo: " + msg);
+
+    m_buffer.consume(bytes);
+    doRead();
 }
 
-void WebSocketConnection::handleHandshake() {
-    // ⚠️ 简化：这里只做一个示例，你可能需要完整解析 HTTP 握手
-    m_handshakeDone = true;
-
-    // 可以给客户端返回 101 Switching Protocols 响应
-    std::string handshakeResp =
-        "HTTP/1.1 101 Switching Protocols\r\n"
-        "Upgrade: websocket\r\n"
-        "Connection: Upgrade\r\n"
-        "Sec-WebSocket-Accept: ...\r\n\r\n";
-
-    m_tcp->sendRaw(handshakeResp);
-}
-
-void WebSocketConnection::handleFrame(const std::string& msg) {
-    // TODO: 解析 WebSocket 帧
-    std::cout << "[WebSocket] Received: " << msg << std::endl;
-
-    // 回显示例
-    send(msg);
-}
-
-void WebSocketConnection::send(const std::string& message) {
-    if (!m_handshakeDone) return;
-
-    // TODO: 这里简单示例，没做 WebSocket 帧封装
-    m_tcp->sendRaw(message);
-}
-
-std::string WebSocketConnection::remoteAddr() const {
-    return m_tcp->remoteAddr();
+void WebSocketConnection::send(const std::string& msg) {
+    auto self = std::static_pointer_cast<WebSocketConnection>(shared_from_this());
+    m_ws.async_write(
+        boost::asio::buffer(msg),
+        [self](boost::system::error_code ec, std::size_t) {
+            if (ec) self->fail(ec, "write");
+        });
 }
 
 void WebSocketConnection::close() {
-    if (auto session = getSession()) {
-        session->detach(shared_from_this());
-    }
-    m_tcp->close();
+    boost::system::error_code ec;
+    m_ws.close(websocket::close_code::normal, ec);
+}
+
+std::string WebSocketConnection::remoteAddr() const {
+    return m_ws.next_layer().remote_endpoint().address().to_string();
+}
+
+void WebSocketConnection::fail(boost::system::error_code ec,
+                               const std::string& where) {
+    LOG_WARN("[WebSocketConnection] {} error: {}", where, ec.message());
 }

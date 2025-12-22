@@ -1,54 +1,77 @@
 #include "SessionManager.h"
+#include "Logger.h"
 
 SessionManager::SessionManager()
-    : m_nextSessionId(1) {}
+    : m_nextSessionId(1) {
+    LOG_INFO("[SessionManager] Created");
+}
 
 SessionManager::SessionPtr SessionManager::createSession() {
     uint64_t id = m_nextSessionId.fetch_add(1, std::memory_order_relaxed);
+    LOG_INFO("[SessionManager] Creating session, id={}", id);
 
     auto session = std::make_shared<Session>(id);
 
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         m_sessions.emplace(id, session);
+        LOG_DEBUG("[SessionManager] Session stored, id={}", id);
     }
 
     return session;
 }
 
 SessionManager::SessionPtr SessionManager::getSession(uint64_t sessionId) {
+    LOG_DEBUG("[SessionManager] getSession called, id={}", sessionId);
+
     std::lock_guard<std::mutex> lock(m_mutex);
 
     auto it = m_sessions.find(sessionId);
     if (it != m_sessions.end()) {
+        LOG_DEBUG("[SessionManager] Session found, id={}", sessionId);
         return it->second;
     }
+
+    LOG_DEBUG("[SessionManager] Session not found, id={}", sessionId);
     return nullptr;
 }
 
 void SessionManager::tryRemoveSession(const SessionPtr& session) {
-    if (!session) return;
+    if (!session) {
+        LOG_DEBUG("[SessionManager] tryRemoveSession called with nullptr");
+        return;
+    }
+
+    LOG_DEBUG("[SessionManager] tryRemoveSession called, sid={}", session->id());
 
     // 关键点：Session 自己知道有没有 Connection
-    if (!session->empty()) return;
+    if (!session->empty()) {
+        LOG_DEBUG("[SessionManager] Session not empty, sid={}", session->id());
+        return;
+    }
 
     std::lock_guard<std::mutex> lock(m_mutex);
     m_sessions.erase(session->id());
+    LOG_INFO("[SessionManager] Session removed, sid={}", session->id());
 }
 
 void SessionManager::removeSession(uint64_t sessionId) {
+    LOG_INFO("[SessionManager] removeSession called, id={}", sessionId);
+
     std::lock_guard<std::mutex> lock(m_mutex);
     m_sessions.erase(sessionId);
 }
 
-void SessionManager::removeAllSessions()
-{
+void SessionManager::removeAllSessions() {
+    LOG_INFO("[SessionManager] removeAllSessions called");
+
     std::lock_guard<std::mutex> lock(m_mutex);
     m_sessions.clear();
 }
 
-size_t SessionManager::size() const
-{
+size_t SessionManager::size() const {
     std::lock_guard<std::mutex> lock(m_mutex);
-    return m_sessions.size();
+    size_t sz = m_sessions.size();
+    LOG_DEBUG("[SessionManager] size queried, count={}", sz);
+    return sz;
 }

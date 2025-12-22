@@ -1,27 +1,33 @@
 #pragma once
 #include "Connection.h"
-#include "TcpConnection.h"
-#include <boost/beast.hpp>
-#include <memory>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/beast/http.hpp>
+#include <boost/beast/core.hpp>
+#include <atomic>
 
-class HttpConnection : public Connection {
+class HttpConnection
+    : public Connection {
 public:
-    using Ptr = std::shared_ptr<HttpConnection>;
+    using tcp = boost::asio::ip::tcp;
 
-    explicit HttpConnection(const std::shared_ptr<TcpConnection>& tcp);
+    explicit HttpConnection(tcp::socket socket);
+    ~HttpConnection();
 
     void start() override;
     void send(const std::string& data) override;
-    std::string remoteAddr() const override;
     void close() override;
+    std::string remoteAddr() const override;
 
 private:
-    void onRawData(boost::beast::flat_buffer& buffer);
+    void doRead();
+    void onRead(boost::system::error_code ec, std::size_t bytes);
     void handleRequest();
-    
+
 private:
-    std::shared_ptr<TcpConnection> m_tcp;
-    boost::beast::http::request_parser<boost::beast::http::string_body> m_parser;
-    boost::beast::http::request<boost::beast::http::string_body> m_request;
+    tcp::socket m_socket;
     boost::beast::flat_buffer m_buffer;
+    boost::beast::http::request<boost::beast::http::string_body> m_request;
+
+    // 🔑 关闭状态（必须有）
+    std::atomic_bool m_closed{false};
 };

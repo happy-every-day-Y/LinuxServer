@@ -2,7 +2,6 @@
 #pragma once
 #include <boost/asio.hpp>
 #include <memory>
-#include "TcpConnection.h"
 #include "EventLoop.h"
 #include "Session.h"
 #include "SessionManager.h"

@@ -1,105 +1,131 @@
 #include "HttpConnection.h"
-#include <boost/beast/http.hpp>
-#include <iostream>
-#include <sstream>
 #include "WebSocketConnection.h"
 #include "Logger.h"
+#include <boost/beast/http.hpp>
 
 namespace http = boost::beast::http;
 
-HttpConnection::HttpConnection(const std::shared_ptr<TcpConnection>& tcp)
-    : m_tcp(tcp) {
-    m_parser.body_limit(1024 * 1024);
+HttpConnection::HttpConnection(tcp::socket socket)
+    : m_socket(std::move(socket)) {
+    LOG_INFO("[HttpConnection] Created, this={}, remote={}",
+             static_cast<void*>(this),
+             remoteAddr());
+}
+
+HttpConnection::~HttpConnection() {
+    LOG_INFO("[HttpConnection] Destroyed, this={}",
+             static_cast<void*>(this));
 }
 
 void HttpConnection::start() {
-    auto self = std::static_pointer_cast<HttpConnection>(shared_from_this());
-
-    m_tcp->setOnMessage([self](boost::beast::flat_buffer& buffer) {
-        self->onRawData(buffer);
-    });
-
-    m_tcp->setOnClose([self]() {
-        self->close();
-    });
-
-    m_tcp->start();
+    LOG_DEBUG("[HttpConnection] start, this={}", static_cast<void*>(this));
+    doRead();
 }
 
-void HttpConnection::onRawData(boost::beast::flat_buffer& buffer) {
-    boost::beast::http::request_parser<boost::beast::http::string_body> parser;
-    parser.body_limit(1024*1024);
+void HttpConnection::doRead() {
+    LOG_DEBUG("[HttpConnection] doRead, this={}", static_cast<void*>(this));
 
-    boost::system::error_code ec;
-    parser.put(buffer.data(), ec);
-    if (ec == boost::beast::http::error::need_more)
-        return;
+    auto self = std::static_pointer_cast<HttpConnection>(shared_from_this());
+    http::async_read(
+        m_socket,
+        m_buffer,
+        m_request,
+        [self](boost::system::error_code ec, std::size_t bytes) {
+            self->onRead(ec, bytes);
+        });
+}
+
+void HttpConnection::onRead(boost::system::error_code ec, std::size_t bytes) {
+    LOG_DEBUG("[HttpConnection] onRead, this={}, bytes={}",
+              static_cast<void*>(this), bytes);
+
     if (ec) {
-        std::cerr << "HTTP parse error: " << ec.message() << std::endl;
+        LOG_WARN("[HttpConnection] read error, this={}, ec={}",
+                 static_cast<void*>(this), ec.message());
         close();
         return;
     }
 
-    if (parser.is_done()) {
-        m_request = parser.release();
-        buffer.consume(buffer.size());
-        handleRequest();
-    }
-}
+    // ---- WebSocket Upgrade ----
+    if (boost::beast::websocket::is_upgrade(m_request)) {
+        LOG_INFO("[HttpConnection] WebSocket upgrade, this={}",
+                 static_cast<void*>(this));
 
+        auto ws = std::make_shared<WebSocketConnection>(
+            std::move(m_socket),
+            std::move(m_request)
+        );
+
+        // 🔑 继承 Session
+        if (auto s = getSession()) {
+            ws->bindSession(s);
+            LOG_DEBUG("[HttpConnection] session moved to WS, sid={}", s->id());
+        }
+
+        ws->start();
+        return;
+    }
+
+    handleRequest();
+}
 
 void HttpConnection::handleRequest() {
-    std::cout << "begin";
-    auto it = m_request.find(boost::beast::http::field::upgrade);
-    bool isWebSocketUpgrade = it != m_request.end() && it->value() == "websocket";
-    if (isWebSocketUpgrade) {
-        auto session = getSession();
-    
-        // 从 session 中解绑自己
-        if (session) session->detach(shared_from_this());
+    LOG_INFO("[HttpConnection] handleRequest, this={}, target={}",
+             static_cast<void*>(this),
+             m_request.target());
 
-        auto wsConn = std::make_shared<WebSocketConnection>(m_tcp);
-        if (session) wsConn->bindSession(session);
-        wsConn->start();
-        LOG_INFO("Upgraded to WebSocket for session {}", session->id());
+    // 🔑 response 必须活到 async_write 完成
+    auto res = std::make_shared<http::response<http::string_body>>();
+    res->version(m_request.version());
+    res->keep_alive(false);
+    res->result(http::status::ok);
+    res->set(http::field::server, "BeastServer");
+    res->body() = "Hello HTTP";
+    res->prepare_payload();
 
-        // 禁用 HttpConnection 的回调
-        m_tcp->setOnMessage(nullptr);
+    auto self = shared_from_this();
+    http::async_write(
+        m_socket,
+        *res,
+        [self, res](boost::system::error_code ec, std::size_t bytes) {
+            LOG_DEBUG("[HttpConnection] write done, this={}, bytes={}",
+                      static_cast<void*>(self.get()), bytes);
 
-        return; // 不再使用 HttpConnection
-    }
-    std::cout << "end";
+            if (ec) {
+                LOG_WARN("[HttpConnection] write error, ec={}", ec.message());
+            }
 
-    http::response<http::string_body> resp;
-    resp.version(m_request.version());
-    resp.keep_alive(m_request.keep_alive());
-    resp.result(http::status::ok);
-    resp.set(http::field::server, "MyCppServer");
-    resp.body() = "Hello from HttpConnection\n";
-    resp.prepare_payload();
-
-    // 发送 response
-    std::ostringstream oss;
-    oss << resp;
-    send(oss.str());
-
-    if (!resp.keep_alive()) {
-        close();
-    }
+            self->close();
+        });
 }
 
-void HttpConnection::send(const std::string& data) {
-    m_tcp->sendRaw(data);
-}
 
-std::string HttpConnection::remoteAddr() const {
-    return m_tcp->remoteAddr();
+void HttpConnection::send(const std::string&) {
+    LOG_WARN("[HttpConnection] send() ignored (HTTP), this={}",
+             static_cast<void*>(this));
 }
 
 void HttpConnection::close() {
-    if (auto session = getSession()) {
-        session->detach(shared_from_this());
+    // 🔑 幂等：只允许关一次
+    if (m_closed.exchange(true)) {
+        return;
     }
 
-    m_tcp->close();
+    LOG_INFO("[HttpConnection] close, this={}", static_cast<void*>(this));
+
+    // 🔑 通知 Session（此时 shared_ptr 仍然安全）
+    if (auto s = getSession()) {
+        s->detach(shared_from_this());
+        LOG_DEBUG("[HttpConnection] detached from session, sid={}", s->id());
+    }
+
+    boost::system::error_code ec;
+    m_socket.shutdown(tcp::socket::shutdown_both, ec);
+    m_socket.close(ec);
+}
+
+std::string HttpConnection::remoteAddr() const {
+    boost::system::error_code ec;
+    auto ep = m_socket.remote_endpoint(ec);
+    return ec ? "unknown" : ep.address().to_string();
 }

@@ -1,30 +1,27 @@
-// WebSocketConnection.h
 #pragma once
-
 #include "Connection.h"
-#include "TcpConnection.h"
 #include <boost/beast/websocket.hpp>
-#include <memory>
-#include <string>
+#include <boost/beast/core.hpp>
 
-class WebSocketConnection : public Connection {
+class WebSocketConnection
+    : public Connection {
 public:
-    using Ptr = std::shared_ptr<WebSocketConnection>;
-
-    explicit WebSocketConnection(const std::shared_ptr<TcpConnection>& tcp);
+    explicit WebSocketConnection(
+        boost::asio::ip::tcp::socket socket,
+        boost::beast::http::request<boost::beast::http::string_body> req);
 
     void start() override;
-    void send(const std::string& message) override;
-    std::string remoteAddr() const override;
+    void send(const std::string& msg) override;
     void close() override;
+    std::string remoteAddr() const override;
 
 private:
-    void onRawData(boost::beast::flat_buffer& buffer);
-    void handleHandshake();
-    void handleFrame(const std::string& msg);
+    void doRead();
+    void onRead(boost::system::error_code ec, std::size_t bytes);
+    void fail(boost::system::error_code ec, const std::string& where);
 
 private:
-    std::shared_ptr<TcpConnection> m_tcp;
-    bool m_handshakeDone{false};
+    boost::beast::websocket::stream<boost::asio::ip::tcp::socket> m_ws;
     boost::beast::flat_buffer m_buffer;
+    boost::beast::http::request<boost::beast::http::string_body> m_request;
 };
