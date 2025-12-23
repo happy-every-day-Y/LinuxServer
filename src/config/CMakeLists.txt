@@ -6,5 +6,5 @@ target_link_libraries(config
     PUBLIC
         project_options
         log
-        nlohmann_json::nlohmann_json
+        json
 )

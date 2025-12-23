@@ -9,7 +9,7 @@ void Logger::init_minimal() {
     auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     g_logger = std::make_shared<spdlog::logger>("CHAT", console_sink);
     g_logger->set_level(spdlog::level::info);
-    g_logger->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+    g_logger->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] [%s] %v");
 }
 
 void Logger::init_full(const std::string& level_str) {
@@ -37,7 +37,7 @@ void Logger::init_full(const std::string& level_str) {
         spdlog::async_overflow_policy::block
     );
     g_logger->set_level(level);
-    g_logger->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] %v");
+    g_logger->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] [%s] %v");
 
     spdlog::register_logger(g_logger);
 }

@@ -21,7 +21,7 @@ void NetBootstrap::start(uint16_t port) {
 
     // 4. 启动监听
     m_acceptor->startAccept();
-    LOG_INFO("[NetBootstrap] Server started at port {}", port);
+    LOG_INFO("Server started at port {}", port);
 
     // 5. 启动 IO 循环（阻塞调用）
     //    如果想非阻塞，可换成 std::thread 启动
@@ -29,7 +29,7 @@ void NetBootstrap::start(uint16_t port) {
 }
 
 void NetBootstrap::stop() {
-    LOG_INFO("[NetBootstrap] Stopping server...");
+    LOG_INFO("Stopping server...");
 
     // 1. 停止 Acceptor
     if (m_acceptor) {
@@ -49,5 +49,5 @@ void NetBootstrap::stop() {
         m_loop.reset();
     }
 
-    LOG_INFO("[NetBootstrap] Server stopped");
+    LOG_INFO("Server stopped");
 }

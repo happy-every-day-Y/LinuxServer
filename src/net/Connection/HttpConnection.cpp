@@ -7,23 +7,23 @@ namespace http = boost::beast::http;
 
 HttpConnection::HttpConnection(tcp::socket socket)
     : m_socket(std::move(socket)) {
-    LOG_INFO("[HttpConnection] Created, this={}, remote={}",
+    LOG_INFO("Created, this={}, remote={}",
              static_cast<void*>(this),
              remoteAddr());
 }
 
 HttpConnection::~HttpConnection() {
-    LOG_INFO("[HttpConnection] Destroyed, this={}",
+    LOG_INFO("Destroyed, this={}",
              static_cast<void*>(this));
 }
 
 void HttpConnection::start() {
-    LOG_DEBUG("[HttpConnection] start, this={}", static_cast<void*>(this));
+    LOG_DEBUG("start, this={}", static_cast<void*>(this));
     doRead();
 }
 
 void HttpConnection::doRead() {
-    LOG_DEBUG("[HttpConnection] doRead, this={}", static_cast<void*>(this));
+    LOG_DEBUG("doRead, this={}", static_cast<void*>(this));
 
     auto self = std::static_pointer_cast<HttpConnection>(shared_from_this());
     http::async_read(
@@ -36,11 +36,11 @@ void HttpConnection::doRead() {
 }
 
 void HttpConnection::onRead(boost::system::error_code ec, std::size_t bytes) {
-    LOG_DEBUG("[HttpConnection] onRead, this={}, bytes={}",
+    LOG_DEBUG("onRead, this={}, bytes={}",
               static_cast<void*>(this), bytes);
 
     if (ec) {
-        LOG_WARN("[HttpConnection] read error, this={}, ec={}",
+        LOG_WARN("read error, this={}, ec={}",
                  static_cast<void*>(this), ec.message());
         close();
         return;
@@ -48,7 +48,7 @@ void HttpConnection::onRead(boost::system::error_code ec, std::size_t bytes) {
 
     // ---- WebSocket Upgrade ----
     if (boost::beast::websocket::is_upgrade(m_request)) {
-        LOG_INFO("[HttpConnection] WebSocket upgrade, this={}",
+        LOG_INFO("WebSocket upgrade, this={}",
                  static_cast<void*>(this));
 
         auto ws = std::make_shared<WebSocketConnection>(
@@ -59,7 +59,7 @@ void HttpConnection::onRead(boost::system::error_code ec, std::size_t bytes) {
         // 🔑 继承 Session
         if (auto s = getSession()) {
             ws->bindSession(s);
-            LOG_DEBUG("[HttpConnection] session moved to WS, sid={}", s->id());
+            LOG_DEBUG("session moved to WS, sid={}", s->id());
         }
 
         ws->start();
@@ -70,7 +70,7 @@ void HttpConnection::onRead(boost::system::error_code ec, std::size_t bytes) {
 }
 
 void HttpConnection::handleRequest() {
-    LOG_INFO("[HttpConnection] handleRequest, this={}, target={}",
+    LOG_INFO("handleRequest, this={}, target={}",
              static_cast<void*>(this),
              m_request.target());
 
@@ -88,11 +88,11 @@ void HttpConnection::handleRequest() {
         m_socket,
         *res,
         [self, res](boost::system::error_code ec, std::size_t bytes) {
-            LOG_DEBUG("[HttpConnection] write done, this={}, bytes={}",
+            LOG_DEBUG("write done, this={}, bytes={}",
                       static_cast<void*>(self.get()), bytes);
 
             if (ec) {
-                LOG_WARN("[HttpConnection] write error, ec={}", ec.message());
+                LOG_WARN("write error, ec={}", ec.message());
             }
 
             self->close();
@@ -101,7 +101,7 @@ void HttpConnection::handleRequest() {
 
 
 void HttpConnection::send(const std::string&) {
-    LOG_WARN("[HttpConnection] send() ignored (HTTP), this={}",
+    LOG_WARN("send() ignored (HTTP), this={}",
              static_cast<void*>(this));
 }
 
@@ -111,12 +111,12 @@ void HttpConnection::close() {
         return;
     }
 
-    LOG_INFO("[HttpConnection] close, this={}", static_cast<void*>(this));
+    LOG_INFO("close, this={}", static_cast<void*>(this));
 
     // 🔑 通知 Session（此时 shared_ptr 仍然安全）
     if (auto s = getSession()) {
         s->detach(shared_from_this());
-        LOG_DEBUG("[HttpConnection] detached from session, sid={}", s->id());
+        LOG_DEBUG("detached from session, sid={}", s->id());
     }
 
     boost::system::error_code ec;

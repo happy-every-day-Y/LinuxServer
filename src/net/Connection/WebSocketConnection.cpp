@@ -9,7 +9,7 @@ WebSocketConnection::WebSocketConnection(
     boost::beast::http::request<boost::beast::http::string_body> req)
     : m_ws(std::move(socket)), m_request(std::move(req)) {
 
-    LOG_INFO("[WebSocketConnection] Created, this={}",
+    LOG_INFO("Created, this={}",
              static_cast<void*>(this));
 }
 
@@ -30,7 +30,7 @@ void WebSocketConnection::start() {
                 self->fail(ec, "accept");
                 return;
             }
-            LOG_INFO("[WebSocketConnection] handshake success");
+            LOG_INFO("handshake success");
             self->doRead();
         });
 }
@@ -54,7 +54,7 @@ void WebSocketConnection::onRead(boost::system::error_code ec,
     std::string msg = boost::beast::buffers_to_string(
         m_buffer.data());
 
-    LOG_INFO("[WebSocketConnection] recv: {}", msg);
+    LOG_INFO("recv: {}", msg);
 
     m_ws.text(true);
     send("Echo: " + msg);
@@ -83,5 +83,5 @@ std::string WebSocketConnection::remoteAddr() const {
 
 void WebSocketConnection::fail(boost::system::error_code ec,
                                const std::string& where) {
-    LOG_WARN("[WebSocketConnection] {} error: {}", where, ec.message());
+    LOG_WARN("{} error: {}", where, ec.message());
 }

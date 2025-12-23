@@ -9,4 +9,5 @@ target_link_libraries(chatd
         netbootstrap
         acceptor
         session
+        mysql
 )
